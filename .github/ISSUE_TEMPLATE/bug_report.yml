@@ -1,0 +1,74 @@
+name: Bug report
+description: 报告一个可复现的问题
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。DSH 仍处于候选发布阶段，**版本信息**对定位问题至关重要。
+        如果涉及安全问题，请不要在这里提交，改用 SECURITY.md 里的私密渠道。
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH 版本
+      description: 桌面版见「关于 DeepSeek Harness」，或运行 `dsh --version`
+      placeholder: 0.2.1-rc.2
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 插件版本
+      placeholder: 0.2.0
+    validations:
+      required: true
+  - type: dropdown
+    id: surface
+    attributes:
+      label: 运行形态
+      options:
+        - Web Host（web profile）
+        - 桌面应用（desktop profile）
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 越具体越好，包括配置的 `model-retry` 片段
+      placeholder: |
+        1. 在设置 → 模型中配置 ...
+        2. 让模型端返回 500 ...
+        3. 观察到 ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+      description: 请附上报错文本；如果涉及重试，附上会话日志里的 `llm/retry` 事件或尝试时间线
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: 相关配置
+      description: 目标 profile 的 `cordis.patch.yml` 中与 `model-retry` 相关的片段（请隐去任何凭据）
+      render: yaml
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已重启过对应的 Host / 桌面应用（宿主模块不会热重载）
+          required: true
+        - label: 我已确认目标 profile 的 `--dump-config` 输出里存在 `model-retry` 行
+          required: false

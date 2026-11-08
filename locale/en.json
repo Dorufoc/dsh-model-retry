@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Model Retry",
+    "description": "Per-model retry count (0 = unlimited) and fixed or incremental cooldown between attempts."
+  }
+}

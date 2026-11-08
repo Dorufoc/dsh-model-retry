@@ -1,0 +1,16 @@
+# Bundle patch for dsh-model-retry.
+#
+# The built-in retry executor is replaced so that a retry count and a cooldown
+# strategy can be expressed per model. This plugin emits the same
+# `llm/retry` / `llm/retry-started` session events as the built-in executor, so
+# the chat retry card and the session log format are unchanged.
+- id: llm-retry
+  disabled: true
+
+- insert:
+    - id: model-retry
+      name: dsh-model-retry
+      config:
+        # Models without their own entry keep the stock DSH retry behaviour
+        # (provider retryPolicy: 5 attempts, exponential backoff with jitter).
+        unconfigured: inherit

@@ -1,0 +1,88 @@
+{
+  "name": "dsh-model-retry",
+  "version": "0.2.0",
+  "description": "Per-model failure-retry policy for DeepSeek Harness: retry count (0 = unlimited, counted per step) and fixed or incremental cooldowns, plus transient-error retries for direct model calls such as auto review. · 为 DeepSeek Harness 提供按模型的重试次数与冷却时间策略，并补齐自动审查等直接模型调用的瞬时错误重试。",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "docs",
+    "README.md",
+    "README.en.md",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "cordis",
+    "retry",
+    "llm-retry",
+    "auto-review",
+    "model-settings",
+    "backoff"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-github-name/dsh-model-retry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-github-name/dsh-model-retry/issues"
+  },
+  "homepage": "https://github.com/your-github-name/dsh-model-retry#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-remotes",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-settings-models"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-llm": "*",
+    "@deepseek-ai/schemastery": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-llm": {
+      "optional": true
+    },
+    "@deepseek-ai/schemastery": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "test": "node test/engine.test.mjs && node test/stream-retry.test.mjs",
+    "test:harness": "node scripts/run.mjs selftest",
+    "verify": "node scripts/run.mjs selftest && node test/engine.test.mjs && node test/stream-retry.test.mjs",
+    "mock": "node scripts/run.mjs mock --port 8787 --default-status 500"
+  }
+}
