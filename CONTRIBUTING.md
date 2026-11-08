@@ -54,13 +54,6 @@ npm test
 3. 运行 `npm run verify`。
 4. 打 tag 并发布：`git tag v0.2.0 && git push --tags`。
 
-## 待办：替换占位信息
-
-本仓库在首次发布前需要替换以下占位内容：
-
-- `package.json` 里的 `repository` / `bugs` / `homepage` 中的 `your-github-name`；
-- `README.md`、`README.en.md`、`SECURITY.md` 中的 issue 链接。
-
 ## 行为准则
 
 保持技术讨论聚焦、就事论事。不接受包含人身攻击、或要求移除安全默认值（例如把未经确认的重试默认开到无限）的改动。

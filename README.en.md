@@ -2,7 +2,7 @@
 
 **Per-model retry policy for DeepSeek Harness: retry counts, cooldown modes, and automatic retries for transient errors in direct model calls such as auto review.**
 
-[简体中文](README.md) · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/your-github-name/dsh-model-retry/issues) · [Security](SECURITY.md)
+[简体中文](README.md) · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/Dorufoc/dsh-model-retry/issues) · [Security](SECURITY.md)
 
 [![Plugin](https://img.shields.io/badge/plugin-0.2.0-6f83ff?style=flat-square)](CHANGELOG.md)
 [![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-8b5cf6?style=flat-square)](#version-support-policy)
@@ -65,7 +65,7 @@ DSH is in developer preview, and the upstream extension points this plugin depen
 ### Install from GitHub (recommended)
 
 ```powershell
-dsh plugin --profile web add github:your-github-name/dsh-model-retry
+dsh plugin --profile web add github:Dorufoc/dsh-model-retry
 dsh --profile web --dump-config
 ```
 
@@ -74,7 +74,7 @@ Once `name: dsh-model-retry` appears in the output, **restart the Web Host and r
 The desktop build uses a separate `desktop` profile and must be installed separately (quit the app completely first, then use the desktop build's bundled commands):
 
 ```powershell
-dsh plugin --profile desktop add github:your-github-name/dsh-model-retry
+dsh plugin --profile desktop add github:Dorufoc/dsh-model-retry
 dsh plugin --profile desktop list
 ```
 

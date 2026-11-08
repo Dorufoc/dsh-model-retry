@@ -2,7 +2,7 @@
 
 **为 DeepSeek Harness 提供按模型的重试策略：次数、冷却方式，以及自动审查这类「直接模型调用」的瞬时错误重试。**
 
-[English](README.en.md) · [更新记录](CHANGELOG.md) · [报告问题](https://github.com/your-github-name/dsh-model-retry/issues) · [安全策略](SECURITY.md)
+[English](README.en.md) · [更新记录](CHANGELOG.md) · [报告问题](https://github.com/Dorufoc/dsh-model-retry/issues) · [安全策略](SECURITY.md)
 
 [![Plugin](https://img.shields.io/badge/plugin-0.2.0-6f83ff?style=flat-square)](CHANGELOG.md)
 [![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-8b5cf6?style=flat-square)](#版本支持政策)
@@ -65,7 +65,7 @@ DSH 处于开发者预览期，插件依赖的上游扩展点（`agent/request-e
 ### 从 GitHub 安装（推荐）
 
 ```powershell
-dsh plugin --profile web add github:your-github-name/dsh-model-retry
+dsh plugin --profile web add github:Dorufoc/dsh-model-retry
 dsh --profile web --dump-config
 ```
 
@@ -74,7 +74,7 @@ dsh --profile web --dump-config
 桌面版使用独立的 `desktop` profile，需要单独安装（先完全退出应用，再用桌面版内置命令）：
 
 ```powershell
-dsh plugin --profile desktop add github:your-github-name/dsh-model-retry
+dsh plugin --profile desktop add github:Dorufoc/dsh-model-retry
 dsh plugin --profile desktop list
 ```
 
