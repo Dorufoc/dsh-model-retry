@@ -16,7 +16,17 @@ DSH's built-in retry only goes down to the provider level, and its backoff is fi
 - counts are independent **per step**: every model call in a new step starts again from 1;
 - and fixes an issue that can stall the toolchain: when the reviewer model used by auto review returns 429/5xx, the failed review is treated as "tool execution denied". The plugin retries these **transient errors**, while a **real review rejection is never retried**.
 
-## Why you need it
+## Why this exists
+
+This plugin started from a concrete problem: while using third-party token plans and personal API relay services, I kept getting 429s and other call failures.
+
+Those errors **usually do not mean the service is gone** — they are short overloads. But DSH treats that single transient failure as terminal: the whole turn ends in an error and you have to come back and resend it, which hurts even more when the previous step was a long-running tool call. The problem sits on the provider's resource-allocation side, but the cost lands on the user.
+
+What I wanted instead was **active retrying**: when the failure clearly comes from the provider's side, wait a reasonable cooldown and try again, riding out the temporary congestion instead of letting it interrupt the work in progress. Those uneven-allocation windows are usually short — a few retries are often enough to get through.
+
+**In practice** that means handing back two things DSH does not expose: the retry **count** can be set per model (`0` = retry forever), and the retry **pattern** can be a fixed interval or an incrementing one — instead of a single hard-coded rule.
+
+## Where the built-in retry stops
 
 DSH's retry policy is implemented by `@deepseek-ai/dsh-llm-retry`, which has three limits:
 
