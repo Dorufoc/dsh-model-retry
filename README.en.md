@@ -9,12 +9,12 @@
 [![License](https://img.shields.io/badge/license-MIT-536990?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-3c873a?style=flat-square)](#development-and-testing)
 
-DSH's built-in retry only goes down to the provider level, and its backoff is fixed to "exponential + jitter". This plugin adds what DSH cannot do today, and fixes one issue that can stall the toolchain:
+DSH's built-in retry only goes down to the provider level, and its backoff is fixed to "exponential + jitter". This plugin adds what DSH cannot do today:
 
 - set retry counts **per model**, where `0` means **retry forever**;
 - choose a cooldown of **fixed interval** or **incrementing interval** (each wait adds N seconds to the previous one);
 - counts are independent **per step**: every model call in a new step starts again from 1;
-- and it fixes an issue that can stall the toolchain: when the reviewer model used by auto review returns 429/5xx, the failed review is treated as "tool execution denied". The plugin retries these **transient errors**, while a **real review rejection is never retried**.
+- and fixes an issue that can stall the toolchain: when the reviewer model used by auto review returns 429/5xx, the failed review is treated as "tool execution denied". The plugin retries these **transient errors**, while a **real review rejection is never retried**.
 
 ## Why you need it
 
@@ -35,17 +35,17 @@ The plugin therefore **takes over** this path: it disables the built-in `llm-ret
 - **Per-model counts and cooldown**: `retries`, `delayMode`, `delaySeconds`, `incrementSeconds`, `maxDelaySeconds`, plus a whitelist of retryable error codes.
 - **Per-step counting**: several failures in the same step share one count; entering the next step resets it to zero.
 - **Auto review is no longer denied by rate limiting**: 429, 5xx, timeouts, transport interruptions and empty responses are retried; auth and parameter errors still fail immediately.
-- **Two editing entry points**: Settings → Models → "Retry on failure" in the provider card, and a standalone "Model retry" settings page.
+- **Two editing entry points**: Settings → Models → "Failure retry" in the provider card, and a standalone "Model retry" settings page.
 - **Safe defaults**: `unconfigured: inherit`, so nothing changes unless you configure it.
 - **No build step**: plain JavaScript; the repository is the installable bundle.
 
 ## Version support policy
 
-| Item | Current |
+| Item | Current status |
 | --- | --- |
 | Plugin version | `0.2.0` |
 | Verified against | DSH Desktop `0.2.1-rc.2`, `desktop` profile |
-| Expected compatibility | The same RC series; DSH is still in release-candidate stage, so breaking changes are possible across RCs |
+| Expected compatibility | The same RC series; DSH is still at the release-candidate stage, so breaking changes are possible across RCs |
 | Node | `>=20` (uses `AbortSignal.any`) |
 
 DSH is in developer preview, and the upstream extension points this plugin depends on (`agent/request-error`, `llm/stream`, the session event format) may change. If you hit an incompatibility, open an issue with your DSH version.
@@ -92,7 +92,7 @@ After uninstalling, the built-in `llm-retry` is re-enabled and retry behavior re
 
 ### Configure in the settings UI
 
-- **Settings → Models → any provider card**: expand "Retry on failure" and set the count and cooldown per model. Because "Add model" adds a row to the model table on the same card, this covers both configuring while adding and editing afterwards.
+- **Settings → Models → any provider card**: expand "Failure retry" and set the count and cooldown per model. Since "Add model" adds a row to the model table on the same card, this covers both configuring at add time and editing afterwards.
 - **Settings → Model retry**: a full view grouped by provider, with the global default template and the policy for unconfigured models.
 
 ### Configure with a config file
@@ -136,7 +136,7 @@ Write this into the target profile's `cordis.patch.yml`:
 | `unconfigured` | `inherit` (default): unconfigured models use the provider policy; `off` means no retry. |
 | `defaults` | The **template** prefilled when adding a model; it never overrides an existing model's entry at runtime. |
 | `models.<provider>/<model>` | That model's own policy; omitted fields fall back to the policy defaults. |
-| `retries` | Retry limit. **`0` means retry forever**; it is counted per step, and a new step starts again from 1. Default `5`. |
+| `retries` | Upper bound on retries. **`0` means retry forever**; it is counted per step, and a new step starts again from 1. Default `5`. |
 | `delayMode` | `fixed`: the same interval every time; `increment`: each wait adds `incrementSeconds` to the previous interval. |
 | `delaySeconds` | The fixed interval in seconds, or the first interval in increment mode. |
 | `incrementSeconds` | Extra seconds added on each retry in increment mode. |
@@ -235,7 +235,7 @@ node scripts/run.mjs selftest
 npm test
 ```
 
-The two files under `npm test` `import` this plugin, so `@deepseek-ai/schemastery`, `@deepseek-ai/cosmokit` and `@deepseek-ai/dsh-llm` must resolve; the simplest way is to run them in a DSH source checkout or in an installed, running Harness environment. When they cannot be resolved, the tests print `SKIP` and exit 0 instead of pretending to pass.
+Both files run by `npm test` import this plugin, so `@deepseek-ai/schemastery`, `@deepseek-ai/cosmokit` and `@deepseek-ai/dsh-llm` must resolve; the simplest way is to run them in a DSH source checkout or in an installed, running Harness environment. When they cannot be resolved, the tests print `SKIP` and exit 0 instead of pretending to pass.
 
 End-to-end verification against real retries (mock provider + real agent loop + session log assertions) is described in [docs/verification.md](docs/verification.md).
 
