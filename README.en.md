@@ -5,11 +5,11 @@
 [简体中文](README.md) · [Changelog](CHANGELOG.md) · [Report an issue](https://github.com/your-github-name/dsh-model-retry/issues) · [Security](SECURITY.md)
 
 [![Plugin](https://img.shields.io/badge/plugin-0.2.0-6f83ff?style=flat-square)](CHANGELOG.md)
-[![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-8b5cf6?style=flat-square)](#版本支持政策)
+[![DSH](https://img.shields.io/badge/DSH-0.2.1--rc.2-8b5cf6?style=flat-square)](#version-support-policy)
 [![License](https://img.shields.io/badge/license-MIT-536990?style=flat-square)](LICENSE)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-3c873a?style=flat-square)](#开发与测试)
+[![Node](https://img.shields.io/badge/node-%3E%3D20-3c873a?style=flat-square)](#development-and-testing)
 
-DSH's built-in retry only goes down to the provider level, and its backoff is fixed to "exponential + jitter". This plugin adds three things DSH cannot do today:
+DSH's built-in retry only goes down to the provider level, and its backoff is fixed to "exponential + jitter". This plugin adds what DSH cannot do today, and fixes one issue that can stall the toolchain:
 
 - set retry counts **per model**, where `0` means **retry forever**;
 - choose a cooldown of **fixed interval** or **incrementing interval** (each wait adds N seconds to the previous one);

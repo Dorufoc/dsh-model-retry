@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/badge/license-MIT-536990?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-3c873a?style=flat-square)](#开发与测试)
 
-DSH 自带的重试能力只到 provider 粒度，且退避算法固定为「指数 + 抖动」。这个插件补上三件 DSH 目前做不到的事：
+DSH 自带的重试能力只到 provider 粒度，且退避算法固定为「指数 + 抖动」。这个插件补上 DSH 目前做不到的几件事，并顺带修掉一个会卡住工具链的问题：
 
 - **按模型**设置重试次数，`0` 表示**无限重试**；
 - 冷却时间可选**固定间隔**或**递增间隔**（每次在上次基础上再加 N 秒）；
